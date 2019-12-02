@@ -32,7 +32,6 @@ import org.cgiar.ccafs.marlo.data.model.DeliverableMetadataElement;
 import org.cgiar.ccafs.marlo.data.model.DeliverableParticipant;
 import org.cgiar.ccafs.marlo.data.model.DeliverablePublicationMetadata;
 import org.cgiar.ccafs.marlo.data.model.GlobalUnit;
-import org.cgiar.ccafs.marlo.data.model.LicensesTypeEnum;
 import org.cgiar.ccafs.marlo.data.model.ProjectSectionStatusEnum;
 import org.cgiar.ccafs.marlo.data.model.RepIndTypeActivity;
 import org.cgiar.ccafs.marlo.utils.InvalidFieldsMessages;
@@ -516,33 +515,6 @@ public class PublicationValidator extends BaseValidator {
   }
 
   public void validateLicense(DeliverableInfo deliverableInfo, BaseAction action) {
-    if (deliverableInfo.getAdoptedLicense().booleanValue()) {
-      if (deliverableInfo.getLicense() != null) {
-        if (this.isValidString(deliverableInfo.getLicense())) {
-          if (deliverableInfo.getLicense().equals(LicensesTypeEnum.OTHER.getValue())) {
-            if (deliverableInfo.getOtherLicense() != null) {
-              if (!(this.isValidString(deliverableInfo.getOtherLicense())
-                && this.wordCount(deliverableInfo.getOtherLicense()) <= 100)) {
-                action.addMessage(action.getText("project.deliverable.license.v.other"));
-                action.getInvalidFields().put("input-deliverable.deliverableInfo.otherLicense",
-                  InvalidFieldsMessages.EMPTYFIELD);
-              }
-              if (deliverableInfo.getAllowModifications() == null) {
-                action.addMessage(action.getText("project.deliverable.license.v.allowModification"));
-                action.getInvalidFields().put("input-deliverable.deliverableInfo.dissemination.allowModification",
-                  InvalidFieldsMessages.EMPTYFIELD);
-              }
-            }
-          }
-        } else {
-          action.addMessage(action.getText("project.deliverable.v.license"));
-          action.getInvalidFields().put("input-deliverable.deliverableInfo.license", InvalidFieldsMessages.EMPTYFIELD);
-        }
-      } else {
-        action.addMessage(action.getText("project.deliverable.v.license"));
-        action.getInvalidFields().put("input-deliverable.deliverableInfo.license", InvalidFieldsMessages.EMPTYFIELD);
-      }
-    }
   }
 
   public void validateMetadata(List<DeliverableMetadataElement> elements, BaseAction action) {

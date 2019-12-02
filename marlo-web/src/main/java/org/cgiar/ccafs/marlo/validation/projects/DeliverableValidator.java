@@ -32,7 +32,6 @@ import org.cgiar.ccafs.marlo.data.model.DeliverableMetadataElement;
 import org.cgiar.ccafs.marlo.data.model.DeliverableParticipant;
 import org.cgiar.ccafs.marlo.data.model.DeliverablePublicationMetadata;
 import org.cgiar.ccafs.marlo.data.model.GlobalUnit;
-import org.cgiar.ccafs.marlo.data.model.LicensesTypeEnum;
 import org.cgiar.ccafs.marlo.data.model.Project;
 import org.cgiar.ccafs.marlo.data.model.ProjectSectionStatusEnum;
 import org.cgiar.ccafs.marlo.data.model.ProjectStatusEnum;
@@ -687,28 +686,6 @@ public class DeliverableValidator extends BaseValidator {
 
   public void validateLicense(Deliverable deliverable, BaseAction action) {
     if (deliverable.getDeliverableInfo(action.getActualPhase()).getAdoptedLicense().booleanValue()) {
-      if (deliverable.getDeliverableInfo(action.getActualPhase()).getLicense() != null) {
-        if (deliverable.getDeliverableInfo(action.getActualPhase()).getLicense()
-          .equals(LicensesTypeEnum.OTHER.getValue())) {
-          if (deliverable.getDeliverableInfo(action.getActualPhase()).getOtherLicense() != null) {
-            if (!(this.isValidString(deliverable.getDeliverableInfo(action.getActualPhase()).getOtherLicense())
-              && this.wordCount(deliverable.getDeliverableInfo(action.getActualPhase()).getOtherLicense()) <= 100)) {
-              action.addMessage(action.getText("project.deliverable.license.v.other"));
-              action.getInvalidFields().put("input-deliverable.deliverableInfo.otherLicense",
-                InvalidFieldsMessages.EMPTYFIELD);
-            }
-
-            if (deliverable.getDeliverableInfo(action.getActualPhase()).getAllowModifications() == null) {
-              action.addMessage(action.getText("project.deliverable.license.v.allowModification"));
-              action.getInvalidFields().put("input-deliverable.deliverableInfo.dissemination.allowModification",
-                InvalidFieldsMessages.EMPTYFIELD);
-            }
-          }
-        }
-      } else {
-        action.addMessage(action.getText("project.deliverable.v.license"));
-        action.getInvalidFields().put("input-deliverable.deliverableInfo.license", InvalidFieldsMessages.EMPTYFIELD);
-      }
     }
   }
 

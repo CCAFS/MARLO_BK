@@ -236,7 +236,6 @@ public class ProjectListAction extends BaseAction {
     ProjectInfo projectInfo = new ProjectInfo();
     projectInfo.setModificationJustification("New expected Project created");
     projectInfo.setType(type);
-    projectInfo.setLiaisonUser(liaisonUser);
     projectInfo.setLiaisonInstitution(liaisonInstitution);
     projectInfo.setScale(0);
     projectInfo.setCofinancing(false);
@@ -250,8 +249,6 @@ public class ProjectListAction extends BaseAction {
       projectPartner.setInstitution(loggedCrp.getInstitution());
       projectPartner.setPhase(this.getActualPhase());
       projectPartnerManager.saveProjectPartner(projectPartner);
-
-      projectInfo.setLiaisonUser(null);
 
     } else {
       projectInfo.setProjectEditLeader(false);
@@ -364,7 +361,6 @@ public class ProjectListAction extends BaseAction {
       ProjectInfo projectInfo = new ProjectInfo();
       projectInfo.setModificationJustification("New expected Project created");
       projectInfo.setType(type);
-      projectInfo.setLiaisonUser(liaisonUser);
       projectInfo.setLiaisonInstitution(liaisonInstitution);
       projectInfo.setScale(0);
       projectInfo.setCofinancing(false);
@@ -378,8 +374,6 @@ public class ProjectListAction extends BaseAction {
         projectPartner.setInstitution(loggedCrp.getInstitution());
         projectPartner.setPhase(this.getActualPhase());
         projectPartnerManager.saveProjectPartner(projectPartner);
-
-        projectInfo.setLiaisonUser(null);
 
       } else {
         projectInfo.setProjectEditLeader(false);
@@ -646,8 +640,10 @@ public class ProjectListAction extends BaseAction {
       this.loadFlagshipgsAndRegions(allProjects);
     }
     closedProjects = new ArrayList<>();
-    List<Project> completedProjects =
-      projectManager.getCompletedProjects(this.getCrpID(), this.getActualPhase().getId());
+    List<Project> completedProjects = null;
+    if (projectManager.getCompletedProjects(this.getCrpID(), this.getActualPhase().getId()) != null) {
+      completedProjects = projectManager.getCompletedProjects(this.getCrpID(), this.getActualPhase().getId());
+    }
 
     // Skip closed projects for Reporting
     if (this.isPlanningActive()) {
@@ -758,6 +754,7 @@ public class ProjectListAction extends BaseAction {
               && (mp.getProjecInfoPhase(this.getActualPhase()).getEndDate() == null || Integer.parseInt(dateFormat
                 .format(mp.getProjecInfoPhase(this.getActualPhase()).getEndDate())) >= this.getCurrentCycleYear()))
           .collect(Collectors.toList());
+<<<<<<< HEAD
 
       allCenterProjects =
         allCenterProjects.stream()
@@ -766,6 +763,8 @@ public class ProjectListAction extends BaseAction {
               && (mp.getProjecInfoPhase(this.getActualPhase()).getEndDate() == null || Integer.parseInt(dateFormat
                 .format(mp.getProjecInfoPhase(this.getActualPhase()).getEndDate())) >= this.getCurrentCycleYear()))
           .collect(Collectors.toList());
+=======
+>>>>>>> refs/remotes/origin/staging
     }
 
     // closedProjects.sort((p1, p2) -> p1.getStatus().compareTo(p2.getStatus()));

@@ -811,11 +811,11 @@ function work_packages() {
 
 			$.each(data, function (index, item) {				
 				$('#list-print-workpackages').append(
-					'<tr>' + '<td >' + item['id'] + '</td>' + '<td>'
+					'<tr>' + '<td >' + item['wp_official_code'] + '</td>' + '<td>'
 					+ item['acronym'] + '</td>'+ '<td>'
 					+ item['name'] + '</td>'+ '<td>'
-					+ item['initiativeId'] + '</td>'+ '<td>'
-					+ item['stageId'] + '</td>'+  '</tr>')
+					+ item['initiative_id'] + '</td>'+ '<td>'
+					+ item['stage_id'] + '</td>'+  '</tr>')
 			});
 setTimeout(() => {
 	updateDataTable("workpackages");
@@ -1726,6 +1726,42 @@ function innovation_use() {
 			});
 setTimeout(() => {
 	updateDataTable("innovation-use-levels");
+}, 1000);
+			
+			// end print Data
+			// ********************************************** */
+		},
+		error: function (e) {
+			console.log(e);
+		}
+	});
+}
+
+function study_types() {
+	$.ajax({
+		url: config.endpoint + '/MELIA/study-types',
+		type: "GET",
+		beforeSend: function () {
+			// hideFilter();
+			cleanModal();
+			manageSpinner(true,"study_types");
+			destroyTable("study_types");
+		},
+		success: function (data) {
+			// ********************************************* */
+			// print data
+			manageSpinner(false,"study_types");
+			console.log(data);
+			let nameColumns = ['Code', 'Name']
+
+
+			$.each(data, function (index, item) {				
+				$('#list-print-study_types').append(
+					'<tr>' + '<td >' + item['id'] + '</td>' + '<td>'
+					+ item['name'] + '</td>' + '</tr>')
+			});
+setTimeout(() => {
+	updateDataTable("study_types");
 }, 1000);
 			
 			// end print Data
